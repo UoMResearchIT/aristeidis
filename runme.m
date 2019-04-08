@@ -31,10 +31,10 @@ rho(1:length(cstar))=getinfo5*1000.;
 % Experimentalist gives corrected MFR with TD temperatures (oC)
 getinfo6;
 % TD Temperatures
-Temperature=xlsread('MFR_data.xls','A:A')+273.15;
-T_f=Temperature';
+MFR_table = readtable('MFR_data.xls');
+T_f = MFR_table.T_TD_oC_' + 273.15;
 % MFR (Measurements)
-experimental_MFR=xlsread('MFR_data.xls','B:B');
+experimental_MFR = MFR_table.MFR;
 experimental=experimental_MFR';
 % Number of different TD temperatures
 ntrials = length(T_f);
