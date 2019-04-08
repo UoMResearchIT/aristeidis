@@ -1,5 +1,5 @@
 close all
-clear all
+clear
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %     This is the main code that estimates the volatility distribution,   %
 %      the vaporization enthalpy and the accommodation coefficient and    %
@@ -52,7 +52,7 @@ xlswrite('Results_under_threshold.xls',results_new)
 inverse_error=1./results_new(:,nspec+3);
 % calculating the averaged estimates of the properties
 for qd=1:nspec
-average_X(qd)=(sum(results_new(:,qd).'*inverse_error(:)))/sum(inverse_error);
+    average_X(qd)=(sum(results_new(:,qd).'*inverse_error(:)))/sum(inverse_error);
 end
 % average_X1=(sum(results_new(:,1).'*inverse_error(:)))/sum(inverse_error);
 % average_X2=(sum(results_new(:,2).'*inverse_error(:)))/sum(inverse_error);
@@ -63,14 +63,14 @@ average_alpha=(sum(log10(results_new(:,nspec+2)).'*inverse_error(:)))/sum(invers
 % calculating the averaged estimated thermogram and the standard deviation
 % (uncertainty) of the estimated thermogram
 for qe=1:ntrials
-average_MFR(qe)=(sum(results_new(:,nspec+3+qe).'*inverse_error(:)))/sum(inverse_error);
-%stdev_MFR(qe)=sqrt(sum((results_new(:,nspec+3+qe).'-average_MFR(qe)).^2.*inverse_error(:)')/sum(inverse_error));
-stdev_MFR_max(qe)=max(results_new(:,nspec+3+qe));
-stdev_MFR_min(qe)=min(results_new(:,nspec+3+qe));
+    average_MFR(qe)=(sum(results_new(:,nspec+3+qe).'*inverse_error(:)))/sum(inverse_error);
+    %stdev_MFR(qe)=sqrt(sum((results_new(:,nspec+3+qe).'-average_MFR(qe)).^2.*inverse_error(:)')/sum(inverse_error));
+    stdev_MFR_max(qe)=max(results_new(:,nspec+3+qe));
+    stdev_MFR_min(qe)=min(results_new(:,nspec+3+qe));
 end
 % calculating the standard deviation(uncertainty) of the properties
 for qf=1:nspec
-stdev_X(qf)=sqrt(sum((results_new(:,qf).'-average_X(qf)).^2.*inverse_error(:)')/sum(inverse_error));
+    stdev_X(qf)=sqrt(sum((results_new(:,qf).'-average_X(qf)).^2.*inverse_error(:)')/sum(inverse_error));
 end
 % stdev_X1=sqrt(sum((results_new(:,1).'-average_X1).^2.*inverse_error(:)')/sum(inverse_error));
 % stdev_X2=sqrt(sum((results_new(:,2).'-average_X2).^2.*inverse_error(:)')/sum(inverse_error));
@@ -125,7 +125,7 @@ set(gca,'xtick',1:length(ybar))
 set(gca,'xticklabel','')
 ylim([0.0001 2])
 hold on
-errorbar(xbar,ybar,L,U,'+k') 
+errorbar(xbar,ybar,L,U,'+k')
 set(gca,'YScale','log')
 sdir=['./','Accomodation coefficient','.','jpg'];
 saveas(gcf,sdir,'tif');
@@ -134,7 +134,7 @@ saveas(gcf,sdir(1:end-4),'fig')
 % Area plot for thermograms from experiments (with red dots) and the
 % predicted with an area of uncertainty =/-1 sigma
 figure(4)
-x=T_f-273.15; 
+x=T_f-273.15;
 y=average_MFR;
 %e=stdev_MFR; % error=stdev
 e1=stdev_MFR_max-average_MFR;
@@ -154,7 +154,7 @@ set(h(1),'FaceColor',[1 1 1])
 set(h(1),'EdgeColor',[1 1 1])
 set(h(2),'FaceColor',[0.9 0.9 0.9])
 set(gca,'TickDir','out','XMinortick','on','YMinortick','on',...
-         'Layer','top') % Properties of the axes, gca: get current axes
+    'Layer','top') % Properties of the axes, gca: get current axes
 set(gca,'XLim',[20 x(end)])
 set(gca,'XTick',[20:20:x(end)])
 set(gca,'YLim',[0.0 1.0])
@@ -167,8 +167,8 @@ sdir=['./','Thermograms','.','jpg'];
 saveas(gcf,sdir,'tif');
 saveas(gcf,sdir(1:end-4),'fig')
 % Save results of estimation of averages and uncertainties (standard
-% deviations)in excel file. Specifically for volatility distribution, 
-%vaporization enthalpy, accommodation coefficient and predicted thermograms 
+% deviations)in excel file. Specifically for volatility distribution,
+%vaporization enthalpy, accommodation coefficient and predicted thermograms
 %(MFRs). The excel file has the name, when saved, 'Estimations and
 %Uncertainties'
 row_header1={'C*(ug/m3)'};
