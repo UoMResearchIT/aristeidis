@@ -1,0 +1,3 @@
+1) In runme you can choose the volatility bins, the step for the mass fractions and also the values for the vaporization enthalpy and the accommodation coefficient that will be tested for the error minimization.(lines 10-14) and save file
+2) Run the runme file (there is a default thresold_error chosen in line 44)
+3) When runme is finished you may want to estimate with a different threshold error. Run then the change_threshold_error file and choose a different threshold error
