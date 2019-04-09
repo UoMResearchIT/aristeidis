@@ -51,24 +51,23 @@ xlswrite('Results_under_threshold.xls',results_new)
 % defining the weighting factor
 inverse_error=1./results_new(:,nspec+3);
 % calculating the averaged estimates of the properties
+average_X = zeros(1, nspec);
 for qd=1:nspec
     average_X(qd)=(sum(results_new(:,qd).'*inverse_error(:)))/sum(inverse_error);
 end
-% average_X1=(sum(results_new(:,1).'*inverse_error(:)))/sum(inverse_error);
-% average_X2=(sum(results_new(:,2).'*inverse_error(:)))/sum(inverse_error);
-% average_X3=(sum(results_new(:,3).'*inverse_error(:)))/sum(inverse_error);
-% average_X4=(sum(results_new(:,4).'*inverse_error(:)))/sum(inverse_error);
+
 average_dHvap=(sum(results_new(:,nspec+1).'*inverse_error(:)))/sum(inverse_error);
 average_alpha=(sum(log10(results_new(:,nspec+2)).'*inverse_error(:)))/sum(inverse_error);
 % calculating the averaged estimated thermogram and the standard deviation
 % (uncertainty) of the estimated thermogram
+[average_MFR, stdev_MFR_max, stdev_MFR_min] = deal(zeros(1, ntrials));
 for qe=1:ntrials
     average_MFR(qe)=(sum(results_new(:,nspec+3+qe).'*inverse_error(:)))/sum(inverse_error);
-    %stdev_MFR(qe)=sqrt(sum((results_new(:,nspec+3+qe).'-average_MFR(qe)).^2.*inverse_error(:)')/sum(inverse_error));
     stdev_MFR_max(qe)=max(results_new(:,nspec+3+qe));
     stdev_MFR_min(qe)=min(results_new(:,nspec+3+qe));
 end
 % calculating the standard deviation(uncertainty) of the properties
+stdev_X = zeros(1, nspec);
 for qf=1:nspec
     stdev_X(qf)=sqrt(sum((results_new(:,qf).'-average_X(qf)).^2.*inverse_error(:)')/sum(inverse_error));
 end
