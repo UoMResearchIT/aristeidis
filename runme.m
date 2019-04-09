@@ -16,20 +16,20 @@ alp=1.0;
 % step taken for the mass fraction of each volatility bin tested
 step=0.1;
 % Experimentalist gives average bypass volumetric diameter, in nm
-diameter=getinfo;
+diameter=getdiameter;
 dp_peak_i=diameter.*10.^(-9.);
 dprange=[dp_peak_i];
 % Experimentalist gives average bypass organic mass concentration, in ug/m3
-aerosol_con=getinfo2;
+aerosol_con=getconc;
 c_aer_tot_i=aerosol_con./10.^(9.);
 % Experimentalist gives residence time in the heating section, in seconds
-t_res_heat=getinfo3;
+t_res_heat=getrestime;
 % Experimentalist gives length of the heating section, in m
-l_heat=getinfo4;
+l_heat=gettubelength;
 % Experimentalist gives density of the surrogate compounds [g/cm3]
-rho(1:length(cstar))=getinfo5*1000.;
+rho(1:length(cstar)) = getdensity * 1000.;
 % Experimentalist gives corrected MFR with TD temperatures (oC)
-getinfo6;
+user_confirm_excel_file;
 % TD Temperatures
 MFR_table = readtable('MFR_data.xls');
 T_f = MFR_table.T_TD_oC_' + 273.15;
