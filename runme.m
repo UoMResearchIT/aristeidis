@@ -1,5 +1,11 @@
+% The variable use_gui should be set by the user to true or false
+% use_gui = true; uses the dialog windows to get experimental parameters
+% from the user.
+% use_gui = false; uses parameters set in this file (line 40).
 close all
-clear
+clearvars -except use_gui
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %     This is the main code that estimates the volatility distribution,   %
 %      the vaporization enthalpy and the accommodation coefficient and    %
@@ -15,21 +21,36 @@ dH=[20000 50000 80000 100000 150000 200000];
 alp=1.0;
 % step taken for the mass fraction of each volatility bin tested
 step=0.1;
-% Experimentalist gives average bypass volumetric diameter, in nm
-diameter=getdiameter;
+
+if use_gui % Get experimental parameters from pop-up dialogs
+    % Experimentalist gives average bypass volumetric diameter, in nm
+    diameter=getdiameter;
+
+    % Experimentalist gives average bypass organic mass concentration, in ug/m3
+    aerosol_con=getconc;
+
+    % Experimentalist gives residence time in the heating section, in seconds
+    t_res_heat=getrestime;
+    % Experimentalist gives length of the heating section, in m
+    l_heat=gettubelength;
+    % Experimentalist gives density of the surrogate compounds [g/cm3]
+    density = getdensity;
+    % Experimentalist gives corrected MFR with TD temperatures (oC)
+    user_confirm_excel_file;
+else % Set experimental parameters in script
+    diameter = 360;
+    aerosol_con = 500;
+    t_res_heat = 30;
+    l_heat = 0.5;
+    density = 1.5;
+end
+
 dp_peak_i=diameter.*10.^(-9.);
-dprange=[dp_peak_i];
-% Experimentalist gives average bypass organic mass concentration, in ug/m3
-aerosol_con=getconc;
+dprange=dp_peak_i;
 c_aer_tot_i=aerosol_con./10.^(9.);
-% Experimentalist gives residence time in the heating section, in seconds
-t_res_heat=getrestime;
-% Experimentalist gives length of the heating section, in m
-l_heat=gettubelength;
-% Experimentalist gives density of the surrogate compounds [g/cm3]
-rho(1:length(cstar)) = getdensity * 1000.;
-% Experimentalist gives corrected MFR with TD temperatures (oC)
-user_confirm_excel_file;
+rho(1:length(cstar)) = density * 1000.;
+
+
 % TD Temperatures
 MFR_table = readtable('MFR_data.xls');
 T_f = MFR_table.T_TD_oC_' + 273.15;
