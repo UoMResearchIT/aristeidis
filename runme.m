@@ -155,7 +155,7 @@ set(h(2),'FaceColor',[0.9 0.9 0.9])
 set(gca,'TickDir','out','XMinortick','on','YMinortick','on',...
     'Layer','top') % Properties of the axes, gca: get current axes
 set(gca,'XLim',[20 x(end)])
-set(gca,'XTick',[20:20:x(end)])
+set(gca,'XTick', 20:20:x(end))
 set(gca,'YLim',[0.0 1.0])
 hold on
 plot(x,experimental,'or','MarkerSize',10,'MarkerFaceColor',[1 0 0])
