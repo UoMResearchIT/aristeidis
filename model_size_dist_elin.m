@@ -278,7 +278,7 @@ for qw=1:qq
                 
                 % Converting the input matrix to column vector for the odesolver
                 for i = 1:nspec
-                    input0(1+(i-1).*(nbins+3):i.*(nbins+3),1) = input(1:nbins+3,i);
+                    input0(1+(i-1)*(nbins+3):i*(nbins+3),1) = input(1:nbins+3,i);
                 end
                 
                 % Solving the mass fluxes
@@ -289,7 +289,7 @@ for qw=1:qq
                 % % Converting back to our format
                 output = zeros(length(time), nbins+3, nspec);
                 for i = 1:nspec
-                    output(1:length(time),1:nbins+3,i) = output0(1:length(time),1+(i-1).*(nbins+3):i.*(nbins+3));
+                    output(1:length(time),1:nbins+3,i) = output0(1:length(time),1+(i-1)*(nbins+3):i*(nbins+3)); 
                 end
                 
                 % Temporary evolution of particle and gas phase masses (kg) and (kg/m3)
