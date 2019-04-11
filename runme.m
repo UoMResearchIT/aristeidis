@@ -1,7 +1,6 @@
-% The variable use_gui should be set by the user to true or false
-% use_gui = true; uses the dialog windows to get experimental parameters
-% from the user.
-% use_gui = false; uses parameters set in this file (line 40).
+% The variable use_gui should be created by the user if they want to enter
+% experimental parameters using GUIs.
+% If use_gui does not exist, parameters set in this file are used (line 40).
 close all
 clearvars -except use_gui
 
@@ -22,7 +21,7 @@ alp=1.0;
 % step taken for the mass fraction of each volatility bin tested
 step=0.1;
 
-if use_gui % Get experimental parameters from pop-up dialogs
+if exist('use_gui', 'var') % Get experimental parameters from pop-up dialogs
     % Experimentalist gives average bypass volumetric diameter, in nm
     diameter=getdiameter;
 
