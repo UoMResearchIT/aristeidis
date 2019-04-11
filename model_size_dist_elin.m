@@ -160,6 +160,7 @@ for qw=1:qq
             % Saturation pressures at initial temperature
             psat_i(1:nspec) = pstar.*exp(dHvap.*(1./T_ref - 1./T_i)./R);
             
+            [Ke_i, peq_i] = deal(zeros(nbins + 1, nspec));
             for i = 1:nspec
                 %  Kelvin effect corresponding to the initial composition
                 Ke_i(1:nbins+1,i) = exp(2.0.*MW(i).*sigmal_i./R./T_i./rho(i)./rp_i);
@@ -209,7 +210,7 @@ for qw=1:qq
                 psat(1:nspec) = pstar.*exp(dHvap.*(1./T_ref - 1./T_TD(1))./R);
                 csat(1:nspec) = MW.*psat./R./T_TD(1);
                 
-                
+                [Ke, peq, pv_a] = deal(zeros(nbins + 1, nspec));
                 for i = 1:nspec
                     % Kelvin effect corresponding to the initial composition
                     Ke(1:nbins+1,i) = exp(2.0.*MW(i).*sigmal_i./R./T_TD(1)./rho(i)./rp_i);
@@ -248,6 +249,7 @@ for qw=1:qq
                 % Mean free path of the gas molecules:
                 lambda(1:nspec) = 3.*D./c_ave;
                 
+                [Pc, Kn, beta] = deal(zeros(nbins + 1, nspec));
                 for i = 1:nspec
                     % Masses of each species in the individual particles (kg)
                     Pc(1:nbins+1,i) = X_i(i).*mp;
@@ -285,6 +287,7 @@ for qw=1:qq
                     T_f(k),T_i,n_tot_i,n_dist_i,pstar,dHvap,T_ref,MW,sigma,rho,Dn,mu,p,alpha_m,alpha_t);
                 
                 % % Converting back to our format
+                output = zeros(length(time), nbins+3, nspec);
                 for i = 1:nspec
                     output(1:length(time),1:nbins+3,i) = output0(1:length(time),1+(i-1).*(nbins+3):i.*(nbins+3));
                 end
