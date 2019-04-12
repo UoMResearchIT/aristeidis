@@ -294,7 +294,11 @@ for qw=1:qq
                 
                 % Temporary evolution of particle and gas phase masses (kg) and (kg/m3)
                 Pc_t_k(1:length(time),1:nbins+1,1:nspec) = output(1:length(time),1:nbins+1,1:nspec);
+                Pc_t_k_new = output(:, 1:nbins+1, :);
+                assert(isequal(Pc_t_k_new, Pc_t_k))
                 Gc_t_k(1:length(time),1:2,1:nspec) = output(1:length(time),nbins+2:nbins+3,1:nspec);
+                Gc_t_k_new = output(:, nbins+2:nbins+3, :);
+                assert(isequal(Gc_t_k, Gc_t_k_new))
                 
                 findex1 = find(Pc_t_k <= 0.0);
                 Pc_t_k(findex1) = 0.0;
@@ -304,6 +308,8 @@ for qw=1:qq
                 % Particle and gas phase masses at the end of the heating section (kg) and
                 % (kg/m3)
                 Pc_k_end(k,1:nbins+1,1:nspec) = Pc_t_k(end,1:nbins+1,1:nspec);
+                Pc_k_end_new(k, :, :) = Pc_t_k(end, :, :);
+                assert(isequal(Pc_k_end_new, Pc_k_end))
                 Gc_k_end(k,1:2,1:nspec) = Gc_t_k(end,1:2,1:nspec);
                 
                 % Particle masses in the end (kg)
