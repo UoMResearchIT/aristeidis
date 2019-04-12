@@ -305,9 +305,13 @@ for qw=1:qq
                 % (kg/m3)
                 Pc_k_end(k, :, :) = Pc_t_k(end, :, :);
                 Gc_k_end(k,1:2,1:nspec) = Gc_t_k(end,1:2,1:nspec);
+                Gc_k_end_new(k, :, :) = Gc_t_k(end, :, :);
+                assert(isequal(Gc_k_end_new, Gc_k_end))
                 
                 % Particle masses in the end (kg)
                 mp_end(k,1:nbins+1) = sum(Pc_k_end(k,1:nbins+1,1:nspec),3);
+                mp_end_new(k, :) = sum(Pc_k_end(k, :, :), 3);
+                assert(isequal(mp_end, mp_end_new))
                 
                 findex3 = find(mp_end <=0.0);
                 mp_end(findex3) = 0.0;
@@ -315,10 +319,13 @@ for qw=1:qq
                 % Particle composition in the end
                 for i = 1:nspec
                     X_end(k,1:nbins+1,i) = Pc_k_end(k,1:nbins+1,i)./mp_end(k,1:nbins+1);
+                    X_end_new(k, :, i) = Pc_k_end(k, :, i)./mp_end(k, :);
+                    assert(isequaln(X_end, X_end_new))
                 end
                 
                 findex4 = find(X_end <= 0.0 | isnan(X_end));
                 X_end(findex4) = 0.0;
+                X_end_new(findex4) = 0;
                 
                 % Particle density (kg/m3)
                 for j = 1:nbins+1
