@@ -200,20 +200,21 @@ for qw=1:qq
                 % % reactor
                 %  para0 = [2.4509 -8.0918 5.0610 0.1405];
                 %  T_nd0 = para0(1).*x_coord0.^3 + para0(2).*x_coord0.^2 + para0(3).*x_coord0 + para0(4);
-                %  T_TD(1) = T_nd0.*(T_f(k) - T_i) + T_i;
+                %  T_TD = T_nd0.*(T_f(k) - T_i) + T_i;
                 % else
                 % % Flat temperature profile
-                T_TD(1) = T_f(k);
+                T_TD = T_f(k);
+                assert(max(size(T_TD)) == 1)
                 % end
                 
                 % Equilibrium pressures at the TD temperature
-                psat(1:nspec) = pstar.*exp(dHvap.*(1./T_ref - 1./T_TD(1))./R);
-                csat(1:nspec) = MW.*psat./R./T_TD(1);
+                psat(1:nspec) = pstar.*exp(dHvap.*(1./T_ref - 1./T_TD)./R);
+                csat(1:nspec) = MW.*psat./R./T_TD;
                 
                 [Ke, peq, pv_a] = deal(zeros(nbins + 1, nspec));
                 for i = 1:nspec
                     % Kelvin effect corresponding to the initial composition
-                    Ke(1:nbins+1,i) = exp(2.0.*MW(i).*sigmal_i./R./T_TD(1)./rho(i)./rp_i);
+                    Ke(1:nbins+1,i) = exp(2.0.*MW(i).*sigmal_i./R./T_TD./rho(i)./rp_i);
                     % Mole fraction based equilibrium pressures
                     %peq(1:nbins+1,i) = Xm_i(i).*psat(i).*Ke(1:nbins+1,i);
                     % Mass fraction based equilibrium pressures
@@ -223,29 +224,29 @@ for qw=1:qq
                 end
                 
                 % Total particle mass concentration (kg/m3)
-                c_aer_tot = c_aer_tot_i.*T_i./T_TD(1);
+                c_aer_tot = c_aer_tot_i.*T_i./T_TD;
                 % Particle mass concentrations (kg/m3)
-                c_aer_dist(1:nbins+1,1) = c_aer_dist_i.*T_i./T_TD(1);
+                c_aer_dist(1:nbins+1,1) = c_aer_dist_i.*T_i./T_TD;
                 % Particle number concentration (1/m3)
-                n_tot = n_tot_i.*T_i./T_TD(1);
+                n_tot = n_tot_i.*T_i./T_TD;
                 % Particle number concentrations in each bin (1/m3)
-                n_dist(1:nbins+1,1) = n_dist_i.*T_i./T_TD(1);
+                n_dist(1:nbins+1,1) = n_dist_i.*T_i./T_TD;
                 
                 % Diffusion coefficient (m2/s)
-                D(1:nspec) = Dn.*(T_TD(1)./T_ref).^mu;
+                D(1:nspec) = Dn.*(T_TD./T_ref).^mu;
                 
                 % Particle mass (kg) and size (m)
                 mp(1:nbins+1,1) = mp_i;
                 rp(1:nbins+1,1) = rp_i;
                 
                 % Vapor mass concentrations (kg/m3)
-                cgas(1:nspec) = pv_i.*MW./R./T_TD(1);
+                cgas(1:nspec) = pv_i.*MW./R./T_TD;
                 
                 % Total concentrations of the species
                 ctot(1:nspec) = cgas + X_i.*c_aer_dist(end);
                 
                 % Mean velocity of the gas molecules:
-                c_ave(1:nspec) = sqrt(8.*R.*T_TD(1)./MW./pi);
+                c_ave(1:nspec) = sqrt(8.*R.*T_TD./MW./pi);
                 % Mean free path of the gas molecules:
                 lambda(1:nspec) = 3.*D./c_ave;
                 
@@ -339,6 +340,7 @@ for qw=1:qq
                 c_aer_dist_end(k, :) = n_dist_i(:)'.*mp_end(k, :);
                 % Total mass
                 c_aer_tot_end(k) = sum(c_aer_dist_end(k,1:nbins));
+                
                 % Mass fraction remaining
                 mfr_dist(k) = c_aer_tot_end(k)./c_aer_int_i;
                 mfr_mono(k) = c_aer_dist_end(k,nbins+1)./n_tot_i./mp_i(end);
