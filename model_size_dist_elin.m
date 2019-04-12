@@ -331,18 +331,12 @@ for qw=1:qq
                 findex5 = find(rhol_end <= 0.0);
                 rhol_end(findex5) = 1000;
                 % Particle radii and diameters
-                rp_end(k,1:nbins+1) = (3.*mp_end(k,1:nbins+1)./4./pi./rhol_end(k,1:nbins+1)).^(1./3);
-                rp_end_new(k, :) = (3.*mp_end(k, :)./4./pi./rhol_end(k, :)).^(1./3);
-                assert(isequaln(rp_end, rp_end_new))
-                dp_end(k,1:nbins+1) = rp_end(k,1:nbins+1).*2;
-                dp_end_new(k, :) = rp_end(k, :).*2;
-                assert(isequaln(dp_end, dp_end_new))
-                
+                rp_end(k, :) = (3.*mp_end(k, :)./4./pi./rhol_end(k, :)).^(1./3);
+                dp_end(k, :) = rp_end(k, :).*2;
+                                
                 % Final concentrations corrected back to T_i
                 % The number concentrations in each bin are the same as initially
-                c_aer_dist_end(k,1:nbins+1) = n_dist_i(1:nbins+1)'.*mp_end(k,1:nbins+1);
-                c_aer_dist_end_new(k, :) = n_dist_i(:)'.*mp_end(k, :);
-                assert(isequaln(c_aer_dist_end, c_aer_dist_end_new))
+                c_aer_dist_end(k, :) = n_dist_i(:)'.*mp_end(k, :);
                 % Total mass
                 c_aer_tot_end(k) = sum(c_aer_dist_end(k,1:nbins));
                 % Mass fraction remaining
