@@ -29,10 +29,12 @@ if length(cstar)==4
                 X_i(3)=ak;
                 X_i(4)=(1.0-ai-aj-ak);
                 X_a(qq,:)=X_i;
-                resultsX(qq,:)=[X_a(qq,:)];
+                resultsX(qq,:) = X_a(qq,:);
+                resultsX_new(qq, :) = X_i;
             end
         end
     end
+    assert(isequaln(resultsX, resultsX_new));
     % finds all combinations for volatility distribution if there are 5 bins
 elseif length(cstar)==5
     for bi=0:step:1
