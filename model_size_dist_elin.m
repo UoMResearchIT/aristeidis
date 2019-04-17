@@ -47,7 +47,7 @@ elseif length(cstar)==5
                     X_i(5)=(1.0-bi-bj-bk-bl);
                     X_a(qq,:)=X_i;
                     % %
-                    resultsX(qq,:)=[X_a(qq,:)];
+                    resultsX(qq,:)= X_i;
                 end
             end
         end
@@ -68,7 +68,7 @@ elseif length(cstar)==6
                         X_i(6)=(1.0-ci-cj-ck-cl-cm);
                         X_a(qq,:)=X_i;
                         % %
-                        resultsX(qq,:)=[X_a(qq,:)];
+                        resultsX(qq,:)= X_i;
                     end
                 end
             end
@@ -92,7 +92,7 @@ elseif length(cstar)==7
                             X_i(7)=(1.0-di-dj-dk-dl-dm-dn);
                             X_a(qq,:)=X_i;
                             % %
-                            resultsX(qq,:)=[X_a(qq,:)];
+                            resultsX(qq,:)= X_i;
                         end
                     end
                 end
@@ -119,7 +119,7 @@ elseif length(cstar)==8
                                 X_i(8)=(1.0-ei-ej-ek-el-em-en-eo);
                                 X_a(qq,:)=X_i;
                                 % %
-                                resultsX(qq,:)=[X_a(qq,:)];
+                                resultsX(qq,:)= X_i;
                             end
                         end
                     end
