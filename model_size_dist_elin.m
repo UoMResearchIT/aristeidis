@@ -159,7 +159,7 @@ for qw=1:qq
             sigmal_i = sum(Xm_i.*sigma); % Mole-weighted average
             
             % Saturation pressures at initial temperature
-            psat_i(1:nspec) = pstar.*exp(dHvap.*(1./T_ref - 1./T_i)./R);
+            psat_i = pstar.*exp(dHvap.*(1./T_ref - 1./T_i)./R);
             
             [Ke_i, peq_i] = deal(zeros(nbins + 1, nspec));
             for i = 1:nspec
@@ -222,8 +222,8 @@ for qw=1:qq
                 % end
                 
                 % Equilibrium pressures at the TD temperature
-                psat(1:nspec) = pstar.*exp(dHvap.*(1./T_ref - 1./T_TD)./R);
-                csat(1:nspec) = MW.*psat./R./T_TD;
+                psat = pstar.*exp(dHvap.*(1./T_ref - 1./T_TD)./R);
+                csat = MW.*psat./R./T_TD;
                 
                 [Ke, peq, pv_a] = deal(zeros(nbins + 1, nspec));
                 for i = 1:nspec
@@ -240,29 +240,29 @@ for qw=1:qq
                 % Total particle mass concentration (kg/m3)
                 c_aer_tot = c_aer_tot_i.*T_i./T_TD;
                 % Particle mass concentrations (kg/m3)
-                c_aer_dist(1:nbins+1,1) = c_aer_dist_i.*T_i./T_TD;
+                c_aer_dist = c_aer_dist_i.*T_i./T_TD;
                 % Particle number concentration (1/m3)
                 n_tot = n_tot_i.*T_i./T_TD;
                 % Particle number concentrations in each bin (1/m3)
-                n_dist(1:nbins+1,1) = n_dist_i.*T_i./T_TD;
+                n_dist = n_dist_i.*T_i./T_TD;
                 
                 % Diffusion coefficient (m2/s)
                 D(1:nspec) = Dn.*(T_TD./T_ref).^mu;
                 
                 % Particle mass (kg) and size (m)
-                mp(1:nbins+1,1) = mp_i;
-                rp(1:nbins+1,1) = rp_i;
+                mp = mp_i;
+                rp = rp_i;
                 
                 % Vapor mass concentrations (kg/m3)
                 cgas(1:nspec) = pv_i.*MW./R./T_TD;
                 
                 % Total concentrations of the species
-                ctot(1:nspec) = cgas + X_i.*c_aer_dist(end);
+                ctot = cgas + X_i.*c_aer_dist(end);
                 
                 % Mean velocity of the gas molecules:
-                c_ave(1:nspec) = sqrt(8.*R.*T_TD./MW./pi);
+                c_ave = sqrt(8.*R.*T_TD./MW./pi);
                 % Mean free path of the gas molecules:
-                lambda(1:nspec) = 3.*D./c_ave;
+                lambda = 3.*D./c_ave;
                 
                 [Pc, Kn, beta] = deal(zeros(nbins + 1, nspec));
                 for i = 1:nspec
@@ -283,12 +283,7 @@ for qw=1:qq
                 %     Calculating the time-dependent evaporation                          %
                 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 
-                input(1:nbins+1,1:nspec) = Pc; % Masses of each species in each particle (kg)
-                
-                input(nbins+2:nbins+3,1:nspec) = Gc; % Gas phase concentrations (kg/m3)
-                
-                
-                
+                input = [Pc; Gc];                
                 
                 % Converting the input matrix to column vector for the odesolver
                 for i = 1:nspec
@@ -363,7 +358,7 @@ for qw=1:qq
             X_a(qi,:)=X_i;
             enthalpia(qi)=dHvap(1);
             alpha(qi)=alpha_m(1);
-            resultsforX(qi,:)=[X_a(qi,:)];
+            resultsforX(qi,:)= X_a(qi,:);
             resultsdHvap(qi)=[enthalpia(qi)];
             resultsalpha(qi)=[alpha(qi)];
             for qd=1:ntrials
