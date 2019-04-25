@@ -191,6 +191,12 @@ for qw=1:qq
             Gc_k_end = zeros(ntrials, length(nbins+2:nbins+3), size(output, 3));
             [~, ncols, ~] = size(Pc_k_end);
             mp_end = zeros(ntrials, ncols);
+            ncols_end = size(mp_end, 2);
+            X_end = zeros(1, ncols_end, nspec);
+            apu = zeros(nspec, 1);
+            rhol_end = zeros(ntrials, nbins+1);
+            [rp_end, dp_end, c_aer_dist_end] = deal(zeros(ntrials, ncols_end));
+            [c_aer_tot_end, mfr_dist, mfr_mono] = deal(zeros(1, ncols_end));
             
             for k = 1:ntrials
                 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
