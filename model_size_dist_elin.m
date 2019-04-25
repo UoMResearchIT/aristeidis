@@ -182,6 +182,16 @@ for qw=1:qq
             % Calculation for each TD temperature                                     %
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
+            time = linspace(0,t_res_heat,10000);
+            dt = mean(diff(time));
+            
+            % Preallocate arrays
+            output = zeros(length(time), nbins+3, nspec);
+            Pc_k_end = zeros(ntrials, length(1:nbins+1), size(output, 3));
+            Gc_k_end = zeros(ntrials, length(nbins+2:nbins+3), size(output, 3));
+            [~, ncols, ~] = size(Pc_k_end);
+            mp_end = zeros(ntrials, ncols);
+            
             for k = 1:ntrials
                 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 %Initializing the time-dependent variables at the TD temp for calculation %
@@ -272,8 +282,7 @@ for qw=1:qq
                 input(nbins+2:nbins+3,1:nspec) = Gc; % Gas phase concentrations (kg/m3)
                 
                 
-                time = linspace(0,t_res_heat,10000);
-                dt = mean(diff(time));
+                
                 
                 % Converting the input matrix to column vector for the odesolver
                 for i = 1:nspec
@@ -286,7 +295,6 @@ for qw=1:qq
                     T_f(k),T_i,n_tot_i,n_dist_i,pstar,dHvap,T_ref,MW,sigma,rho,Dn,mu,p,alpha_m,alpha_t);
                 
                 % % Converting back to our format
-                output = zeros(length(time), nbins+3, nspec);
                 for i = 1:nspec
                     output(1:length(time),1:nbins+3,i) = output0(1:length(time),1+(i-1)*(nbins+3):i*(nbins+3)); 
                 end
