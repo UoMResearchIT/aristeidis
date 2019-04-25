@@ -33,6 +33,7 @@ if length(cstar)==4
             end
         end
     end
+
     % finds all combinations for volatility distribution if there are 5 bins
 elseif length(cstar)==5
     for bi=0:step:1
@@ -182,9 +183,6 @@ for qw=1:qq
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
             for k = 1:ntrials
-                
-                Trial = k;
-                
                 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 %Initializing the time-dependent variables at the TD temp for calculation %
                 %of evaporation in the heating section                                    %
