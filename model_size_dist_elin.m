@@ -11,36 +11,39 @@ inputs_TD
 [resultsX, qq] = cstar_combinations(cstar, step);
 
 qi=0;
+dHvap = zeros(1, length(cstar));
+alpha_m = zeros(1, length(cstar));
+
+% Properties of the evaporating compounds
+inputs_prop
+% Size distribution
+inputs_size_dist_modi
+
 for qw=1:qq
     X_i = resultsX(qw,:);
+                
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %   Getting the composition of the aerosol and vapor mixture             %
+    %   at the initial temperature T_i. Aerosol is assumed to be internally  %
+    %   mixed.                                                               %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %Initial mole fractions of the species in the aerosol
+    n_i_apu(1:nspec) = X_i./MW;
+    n_i_tot_apu = sum(X_i./MW);
+    Xm_i(1:nspec) = n_i_apu./n_i_tot_apu;
+    % Initial density of the aerosol
+    rhol_i = sum(X_i.*rho); % Mass-weighted average
+    % Initial surface tension of the aerosol
+    sigmal_i = sum(Xm_i.*sigma); % Mole-weighted average
+    % Saturation pressures at initial temperature
+    psat_i = pstar.*exp(dHvap.*(1./T_ref - 1./T_i)./R);
+    
     for qk=1:length(dH)
+        dHvap(:) = dH(qk);
         for qz=1:length(alp)
             qi = qi+1
-            dHvap(1:length(cstar))=dH(qk);
-            alpha_m(1:length(cstar))=alp(qz);
-            % Properties of the evaporating compounds
-            inputs_prop
-            % Size distribution
-            inputs_size_dist_modi
-            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            %   Getting the composition of the aerosol and vapor mixture             %
-            %   at the initial temperature T_i. Aerosol is assumed to be internally  %
-            %   mixed.                                                               %
-            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
-            %Initial mole fractions of the species in the aerosol
-            n_i_apu(1:nspec) = X_i./MW;
-            n_i_tot_apu = sum(X_i./MW);
-            Xm_i(1:nspec) = n_i_apu./n_i_tot_apu;
-            
-            % Initial density of the aerosol
-            rhol_i = sum(X_i.*rho); % Mass-weighted average
-            
-            % Initial surface tension of the aerosol
-            sigmal_i = sum(Xm_i.*sigma); % Mole-weighted average
-            
-            % Saturation pressures at initial temperature
-            psat_i = pstar.*exp(dHvap.*(1./T_ref - 1./T_i)./R);
+            alpha_m(:) = alp(qz);
             
             [Ke_i, peq_i] = deal(zeros(nbins + 1, nspec));
             for i = 1:nspec
