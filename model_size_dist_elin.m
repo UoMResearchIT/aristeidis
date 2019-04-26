@@ -12,10 +12,10 @@ inputs_TD
 
 qi=0;
 for qw=1:qq
+    X_i = resultsX(qw,:);
     for qk=1:length(dH)
         for qz=1:length(alp)
-            qi=qi+1
-            X_i(1:length(cstar))=resultsX(qw,:);
+            qi = qi+1
             dHvap(1:length(cstar))=dH(qk);
             alpha_m(1:length(cstar))=alp(qz);
             % Properties of the evaporating compounds
