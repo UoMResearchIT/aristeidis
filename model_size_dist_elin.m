@@ -29,7 +29,6 @@ for qw=1:qq
 end
 qi_index = 1:qi;
 
-[Ke_i, peq_i] = deal(zeros(nbins + 1, nspec));
 n_cstar = length(cstar);
 
 for qi = qi_index
@@ -54,15 +53,11 @@ for qi = qi_index
     
     alpha_m = repmat(alp(qz), 1, n_cstar);
 
-    for i = 1:nspec
-        %  Kelvin effect corresponding to the initial composition
-        Ke_i(1:nbins+1,i) = exp(2.0.*MW(i).*sigmal_i./R./T_i./rho(i)./rp_i);
-        % Mole fraction based equilibrium pressures
-        %peq_i(1:nbins+1,i) = Xm_i(i).*psat_i(i).*Ke_i(1:nbins+1,i);
-        % Mass fraction based equilibrium pressures
-        peq_i(1:nbins+1,i) = X_i(i).*psat_i(i).*Ke_i(1:nbins,i);
-    end
-
+    %  Kelvin effect corresponding to the initial composition
+    Ke_i = exp(2.0 .* MW .* sigmal_i ./(R * T_i .* rho .* rp_i));
+    % Mass fraction based equilibrium pressures
+    peq_i = X_i .* psat_i .* Ke_i;
+   
     % Initial partial pressures of the species, assuming aerosol initially in
     % equilibrium with the aerosol corresponding to the peak size
     pv_i(1:nspec) = peq_i(end,1:nspec);
