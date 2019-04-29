@@ -60,10 +60,10 @@ for qi = qi_index
    
     % Initial partial pressures of the species, assuming aerosol initially in
     % equilibrium with the aerosol corresponding to the peak size
-    pv_i(1:nspec) = peq_i(end,1:nspec);
-
+    pv_i = peq_i(end, :);
+    
     % Initial particle mass
-    mp_i(1:nbins+1,1) = rhol_i.*4.0*pi.*rp_i.^3.0./3.0;
+    mp_i = rhol_i.*4.0*pi.*rp_i.^3.0./3.0;
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Calculation for each TD temperature                                     %
@@ -134,14 +134,14 @@ for qi = qi_index
         n_dist = n_dist_i.*T_i./T_TD;
 
         % Diffusion coefficient (m2/s)
-        D(1:nspec) = Dn.*(T_TD./T_ref).^mu;
+        D = Dn.*(T_TD./T_ref).^mu;
 
         % Particle mass (kg) and size (m)
         mp = mp_i;
         rp = rp_i;
 
         % Vapor mass concentrations (kg/m3)
-        cgas(1:nspec) = pv_i.*MW./R./T_TD;
+        cgas = pv_i.*MW./R./T_TD;
 
         % Total concentrations of the species
         ctot = cgas + X_i.*c_aer_dist(end);
@@ -164,7 +164,7 @@ for qi = qi_index
         % Gas phase concentrations kg/m3 for the size distribution case and for the
         % monodisperse case
 
-        Gc(1:2,1:nspec) = [cgas; cgas];
+        Gc = [cgas; cgas];
 
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %     Calculating the time-dependent evaporation                          %
