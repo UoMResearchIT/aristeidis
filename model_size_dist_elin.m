@@ -17,6 +17,10 @@ inputs_size_dist_modi
 
 % Preparation for parfor loop
 qi = 0;
+len_index = qq * length(dH) * length(alp);
+[qw_index, qk_index, qz_index] = deal(zeros(1, len_index));
+qi_index = 1:len_index;
+
 for qw=1:qq
     for qk=1:length(dH)
          for qz=1:length(alp)
@@ -27,7 +31,6 @@ for qw=1:qq
          end
     end
 end
-qi_index = 1:qi;
 
 n_cstar = length(cstar);
 
@@ -173,9 +176,7 @@ for qi = qi_index
         input = [Pc; Gc];                
 
         % Converting the input matrix to column vector for the odesolver
-        for i = 1:nspec
-            input0(1+(i-1)*(nbins+3):i*(nbins+3),1) = input(1:nbins+3,i);
-        end
+        input0 = reshape(input, [], 1);
 
         % Solving the mass fluxes
         options = odeset('RelTol',1E-4,'AbsTol',1E-13);
