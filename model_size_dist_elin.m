@@ -34,7 +34,7 @@ end
 
 n_cstar = length(cstar);
 
-for qi = qi_index
+parfor qi = qi_index
     qw = qw_index(qi);
     qk = qk_index(qi);
     qz = qz_index(qi);
@@ -240,8 +240,7 @@ for qi = qi_index
         mfr_dist(k) = c_aer_tot_end(k)./c_aer_int_i;
         mfr_mono(k) = c_aer_dist_end(k,nbins+1)./n_tot_i./mp_i(end);
     end
-    %
-    %
+
     % different combinations of properties examined
     X_a(qi,:)=X_i;
     enthalpia(qi)=dHvap(1);
@@ -252,10 +251,9 @@ for qi = qi_index
     end
     % calculating the error
     error(qi)=sqrt(sum((experimental-mfr_dist).^2))/ntrials;
-    % all the combinations of properties with the corresponding error
-    results = [X_a, enthalpia', alpha', error', MFR];
 end
-   
+% all the combinations of properties with the corresponding error
+results = [X_a, enthalpia', alpha', error', MFR];
         
 
 % for qw=1:qq
