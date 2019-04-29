@@ -30,10 +30,9 @@ end
 qi_index = 1:qi;
 
 [Ke_i, peq_i] = deal(zeros(nbins + 1, nspec));
-ncols = size(resultsX, 2);
-alpha_m = zeros(1, length(cstar));
+n_cstar = length(cstar);
 
-parfor qi = qi_index
+for qi = qi_index
     qw = qw_index(qi);
     qk = qk_index(qi);
     qz = qz_index(qi);
@@ -49,13 +48,12 @@ parfor qi = qi_index
     % Initial surface tension of the aerosol
     sigmal_i = sum(Xm_i.*sigma); % Mole-weighted average
     
-    dHvap = repmat(dH(qk), 1, length(cstar));
+    dHvap = repmat(dH(qk), 1, n_cstar);
     % Saturation pressures at initial temperature
     psat_i = pstar.*exp(dHvap.*(1./T_ref - 1./T_i)./R);
     
-    alpha_m(:) = alp(qz);
-            
-    
+    alpha_m = repmat(alp(qz), 1, n_cstar);
+
     for i = 1:nspec
         %  Kelvin effect corresponding to the initial composition
         Ke_i(1:nbins+1,i) = exp(2.0.*MW(i).*sigmal_i./R./T_i./rho(i)./rp_i);
