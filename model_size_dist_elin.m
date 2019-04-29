@@ -33,9 +33,6 @@ for qw=1:qq
 end
 qi_index = 1:qi;
 
-% Saturation pressures at initial temperature
-psat_i = pstar.*exp(dHvap.*(1./T_ref - 1./T_i)./R);
-
 [Ke_i, peq_i] = deal(zeros(nbins + 1, nspec));
 ncols = size(resultsX, 2);
 
@@ -53,6 +50,8 @@ for qi = qi_index
     sigmal_i = sum(Xm_i.*sigma); % Mole-weighted average
     
     dHvap(:) = dH(qk_index(qi));
+    % Saturation pressures at initial temperature
+    psat_i = pstar.*exp(dHvap.*(1./T_ref - 1./T_i)./R);
     
     alpha_m(:) = alp(qz_index(qi));
             
