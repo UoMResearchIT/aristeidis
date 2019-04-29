@@ -37,8 +37,12 @@ qi_index = 1:qi;
 ncols = size(resultsX, 2);
 
 for qi = qi_index
-    X_i = resultsX(qw_index(qi), :);
+    qw = qw_index(qi);
+    qk = qk_index(qi);
+    qz = qz_index(qi);
     
+    X_i = resultsX(qw, :);
+        
     %Initial mole fractions of the species in the aerosol
     n_i_apu = X_i./MW;
     n_i_tot_apu = sum(n_i_apu);
@@ -48,11 +52,11 @@ for qi = qi_index
     % Initial surface tension of the aerosol
     sigmal_i = sum(Xm_i.*sigma); % Mole-weighted average
     
-    dHvap(:) = dH(qk_index(qi));
+    dHvap(:) = dH(qk);
     % Saturation pressures at initial temperature
     psat_i = pstar.*exp(dHvap.*(1./T_ref - 1./T_i)./R);
     
-    alpha_m(:) = alp(qz_index(qi));
+    alpha_m(:) = alp(qz);
             
     
     for i = 1:nspec
