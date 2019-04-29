@@ -40,10 +40,9 @@ for qi = qi_index
     X_i = resultsX(qw_index(qi), :);
     
     %Initial mole fractions of the species in the aerosol
-    n_i_apu(1:nspec) = X_i./MW;
-    n_i_tot_apu = sum(X_i./MW);
-    Xm_i(1:nspec) = n_i_apu./n_i_tot_apu;
-
+    n_i_apu = X_i./MW;
+    n_i_tot_apu = sum(n_i_apu);
+    Xm_i = n_i_apu./n_i_tot_apu;
     % Initial density of the aerosol
     rhol_i = sum(X_i.*rho); % Mass-weighted average
     % Initial surface tension of the aerosol
