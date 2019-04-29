@@ -246,18 +246,16 @@ for qi = qi_index
     X_a(qi,:)=X_i;
     enthalpia(qi)=dHvap(1);
     alpha(qi)=alpha_m(1);
-    resultsforX(qi,:)= X_a(qi,:);
-    resultsdHvap(qi)=[enthalpia(qi)];
-    resultsalpha(qi)=[alpha(qi)];
+    
     for qd=1:ntrials
         MFR(qi,qd)=mfr_dist(qd);
     end
     % calculating the error
     error(qi)=sqrt(sum((experimental-mfr_dist).^2))/ntrials;
     % all the combinations of properties with the corresponding error
-    results=[resultsforX resultsdHvap' resultsalpha' error' MFR];
+    results = [X_a, enthalpia', alpha', error', MFR];
 end
-    
+   
         
 
 % for qw=1:qq
