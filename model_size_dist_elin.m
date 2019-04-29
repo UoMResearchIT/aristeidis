@@ -10,10 +10,6 @@
 inputs_TD
 [resultsX, qq] = cstar_combinations(cstar, step);
 
-qi=0;
-dHvap = zeros(1, length(cstar));
-alpha_m = zeros(1, length(cstar));
-
 % Properties of the evaporating compounds
 inputs_prop
 % Size distribution
@@ -35,8 +31,9 @@ qi_index = 1:qi;
 
 [Ke_i, peq_i] = deal(zeros(nbins + 1, nspec));
 ncols = size(resultsX, 2);
+alpha_m = zeros(1, length(cstar));
 
-for qi = qi_index
+parfor qi = qi_index
     qw = qw_index(qi);
     qk = qk_index(qi);
     qz = qz_index(qi);
@@ -52,7 +49,7 @@ for qi = qi_index
     % Initial surface tension of the aerosol
     sigmal_i = sum(Xm_i.*sigma); % Mole-weighted average
     
-    dHvap(:) = dH(qk);
+    dHvap = repmat(dH(qk), 1, length(cstar));
     % Saturation pressures at initial temperature
     psat_i = pstar.*exp(dHvap.*(1./T_ref - 1./T_i)./R);
     
