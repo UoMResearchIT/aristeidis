@@ -184,12 +184,7 @@ parfor qi = qi_index
             T_f(k),T_i,n_tot_i,n_dist_i,pstar,dHvap,T_ref,MW,sigma,rho,Dn,mu,p,alpha_m,alpha_t);
 
         % % Converting back to our format
-        for i = 1:nspec
-            output(1:length(time),1:nbins+3,i) = output0(1:length(time),1+(i-1)*(nbins+3):i*(nbins+3));
-        end
-        % Test vectorised assignment is same as loop version:
-        output_temp = reshape(output0, size(output, 1), size(output, 2), size(output, 3));
-        assert(isequal(output_temp, output))
+        output = reshape(output0, size(output, 1), size(output, 2), size(output, 3));
         
         % Temporary evolution of particle and gas phase masses (kg) and (kg/m3)
         Pc_t_k = output(:, 1:nbins+1, :);
