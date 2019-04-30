@@ -225,8 +225,8 @@ parfor qi = qi_index
         findex5 = find(rhol_end <= 0.0);
         rhol_end(findex5) = 1000;
         % Particle radii and diameters
-        rp_end(k, :) = (3.*mp_end(k, :)./4./pi./rhol_end(k, :)).^(1./3);
-        dp_end(k, :) = rp_end(k, :).*2;
+        rp_end = (3 * mp_end ./ (4 * pi .* rhol_end)).^(1/3);
+        dp_end = rp_end * 2;
 
         % Final concentrations corrected back to T_i
         % The number concentrations in each bin are the same as initially
